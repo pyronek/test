@@ -1,0 +1,14 @@
+.navigation
+  %ul.nav
+    %li
+      = link_to "Easyblog", root_path
+    - if user_signed_in?
+      %li{class: is?("posts")}
+        = link_to 'Posts', posts_path
+      %li{class: is?("devise/registrations")}
+        = link_to 'Edit account', edit_user_registration_path
+      %li.logout-button
+        = link_to 'Logout', destroy_user_session_path, method: 'delete', class: 'pull-right'
+    - else
+      %li.login-button
+        = link_to 'Login', new_user_session_path
