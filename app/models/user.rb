@@ -41,4 +41,5 @@ class User
   def to_s
     nickname.present? ? nickname : name
   end
+
 end

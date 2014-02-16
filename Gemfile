@@ -7,6 +7,7 @@ gem 'haml-rails'
 gem 'bootstrap-sass', '< 3.0'
 gem 'devise'
 gem 'mongoid_taggable'
+gem 'mongoid-votable'
 gem 'simple_form'
 gem 'figaro'
 gem 'draper'
@@ -14,9 +15,12 @@ gem 'decent_exposure'
 gem 'decent_decoration'
 gem 'flatui-rails', github: 'pkurek/flatui-rails'
 
+
 gem 'sass-rails'
 gem 'coffee-rails'
 gem 'uglifier'
+
+gem 'binding_of_caller'
 
 group :development do
   gem 'html2haml'

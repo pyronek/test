@@ -123,6 +123,9 @@ GEM
       mongoid (>= 3.0.0.rc)
       rake
       rspec (>= 2.9)
+    mongoid-votable (0.1.0)
+      activesupport (>= 3.0.0)
+      mongoid (>= 3.0.0)
     mongoid_taggable (1.1.1)
       mongoid (>= 3)
       rake
@@ -239,6 +242,7 @@ DEPENDENCIES
   jquery-rails
   mongoid
   mongoid-rspec
+  mongoid-votable
   mongoid_taggable
   pry
   quiet_assets

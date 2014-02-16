@@ -1,0 +1,12 @@
+%setcion.comments
+= flash[:notice]
+%ol
+  - comments.each do |comment|
+    %li  
+      %small
+      = "Author: #{author}" 
+      .comment__body= simple_format comment.body
+      .comment__vote_up= link_to "Vote_up(#{comment.votes.where(value: 1).count})",vote_up_post_comment_path(post, post.comments), class: 'comment__button--vote_up'
+      .comment__vote_down= link_to "Vote_down(#{comment.votes.where(value: -1).count})",vote_down_post_comment_path(post, post.comments), class: 'comment__button--vote_up'
+      .comment__edit= link_to "edit_comment", edit_post_comment_path(post, post.comments)
+

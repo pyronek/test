@@ -5,8 +5,11 @@ class CommentsController < ApplicationController
 	expose(:comments) {post.comments}
 	expose(:comment)
 	expose(:votes) {comment.votes}
-
+	expose_decorated(:comment, attributes: :comment_params)
+	expose(:author) { comment.user.to_s}
+	
 	def index
+
 	end
 
 	def new
@@ -29,6 +32,7 @@ class CommentsController < ApplicationController
 	end
 
 	def show
+		@comment = Comment.find(params[:id])
 	end
 
 	def mark_archived
@@ -37,12 +41,12 @@ class CommentsController < ApplicationController
 	end
 
 	def create
+		comment.user = current_user
 		if comment.save
-			render_to action: :index
+			redirect_to action: :index
 		else
 			render :new
 		end
-
 	end
 	
 	def mark_as_not_abusive
@@ -60,8 +64,29 @@ class CommentsController < ApplicationController
 				end
 			end
 		else
-			render :show
+			render action: :index, :notice => "You like this comment"
 		end
+	end
+
+	def vote_down
+		if !comment.has_voted?(current_user)
+			vote = votes.build(user_id: current_user.id, value: -1)
+			respond_to do |format|
+				if vote.save
+					format.html {redirect_to post}
+					format.js
+				end
+			end
+		else
+			render action: :index, :notice => "You don't like this comment"
+		end
+	end
+
+	private
+
+	def comment_params
+		return if %w{mark_archived}.include? action_name
+		params.require(:comment).permit(:body, :vote_up, :vote_down)
 	end
 
 end

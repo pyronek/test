@@ -1,9 +1,12 @@
 class PostsController < ApplicationController
   before_filter :authenticate_user!
+  
   expose_decorated(:posts) { Post.all }
   expose_decorated(:post, attributes: :post_params)
   expose(:tag_cloud) { Post.tags_with_weight }
   expose(:comments){(current_user == post.user ? post.comments : post.comments.select{|c| !c.abusive?})}
+  expose(:comments) { post.comments }
+  expose(:author) { post.user.to_s}
 
   def index
   end
@@ -37,6 +40,7 @@ class PostsController < ApplicationController
   end
 
   def create
+    post.user = current_user
     if post.save
       redirect_to action: :index
     else
@@ -48,6 +52,7 @@ class PostsController < ApplicationController
 
   def post_params
     return if %w{mark_archived}.include? action_name
-    params.require(:post).permit(:body, :title, :tags)
+    params.require(:post).permit(:body, :title, :tags, :comments)
   end
+
 end

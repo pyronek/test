@@ -1,12 +1,31 @@
-.post--full-size
+%section.post
+.post--full-size.clearfix
   %h2
     = post.title
     %small
-      = post.created_at
+      = post.friendly_date
+  .author
+    = "Author: #{author}"
   = link_to "edit", edit_post_path(post), class: 'post__button--edit'
-
+  = link_to "delete__post", post, :method => :delete, class: 'post__button--Delete pull-right', :confirm => "Are you sure?"
   .post__body
-    = post.body
-  .post__tags-list.tagsinput
-    - post.tags_array.each do |tag|
-      = content_tag :span, tag, class: 'tag'
+    = simple_format post.body
+  - if post.tags_array.any?
+    .post__tags-list.tagsinput
+      - post.tags_array.each do |tag|
+        = content_tag :span, tag, class: 'tag'
+
+%section.comments 
+  %h3 
+    Comments
+    %small
+      = "(#{comments.count})" 
+  %ul
+  - if comments.count == 0 
+    = "No comments found" 
+  - else
+    = render 'comments/index'
+  %ul 
+    = render comments if comments.any? 
+  = render 'comments/new' 
+
