@@ -15,6 +15,10 @@ class PostsController < ApplicationController
   end
 
   def edit
+    if session[:user_id] != post.user_id
+      flash[:notice] ="Sorry, you can't edit this post"
+      redirect_to post
+    end
   end
 
   def update
@@ -26,7 +30,11 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    post.destroy if current_user.owner? post
+    if current_user.owner? post
+      post.destroy
+    else
+      flash[:notice] ="Sorry, you can't delete this post"
+    end
     render action: :index
   end
 

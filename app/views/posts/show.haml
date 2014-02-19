@@ -7,7 +7,7 @@
   .author
     = "Author: #{author}"
   = link_to "edit", edit_post_path(post), class: 'post__button--edit'
-  = link_to "delete__post", post, :method => :delete, class: 'post__button--Delete pull-right', :confirm => "Are you sure?"
+  = link_to "delete__post", post, :method => :delete, class: 'post__button--delete pull-right', :confirm => "Are you sure?"
   .post__body
     = simple_format post.body
   - if post.tags_array.any?
@@ -20,11 +20,17 @@
     Comments
     %small
       = "(#{comments.count})" 
-  %ul
-  - if comments.count == 0 
-    = "No comments found" 
-  - else
-    = render 'comments/index'
+  %ol
+    - comments.each do |comment|
+      %li  
+        %small
+        = "Author: #{author}" 
+        = link_to "edit", edit_post_comment_path(comment.post, comment), class: 'comment__button--edit'
+        = link_to "delede", [comment.post, comment], :method => :delete, class: 'comment__button--delete', :confirm => "Are you sure?"
+        = link_to "Vote_up(#{comment.votes.where(value: 1).count})", vote_up_post_comment_path(comment.post, comment), class: 'comment__button--vote_up pull-right'
+        = link_to "Vote_down(#{comment.votes.where(value: -1).count})", vote_down_post_comment_path(comment.post, comment), class: 'comment__button--vote_up pull-right'
+        .comment__body= simple_format comment.body
+        
   %ul 
     = render comments if comments.any? 
   = render 'comments/new' 

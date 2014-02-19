@@ -9,30 +9,36 @@ class CommentsController < ApplicationController
 	expose(:author) { comment.user.to_s}
 	
 	def index
-
 	end
 
 	def new
 	end
 
 	def edit
+		if session[:user_id] != comment.user_id
+		  flash[:notice] ="Sorry, you can't edit this comment"
+		  redirect_to post
+		end
 	end
 
 	def update
-    if comment.save
-      render action: :index
-    else
-      render :new
+    	if comment.save
+   		  render action: :index
+   		else
+   		  render :new
+   		end
     end
-  end
 
 	def destroy
-    comment.destroy if current_user.owner? comment
-    render action: :index
+		if current_user.owner? comment
+		  comment.destroy
+		else
+		  flash[:notice] ="Sorry, you can't delete this comment"
+		end
+		redirect_to post
 	end
 
 	def show
-		@comment = Comment.find(params[:id])
 	end
 
 	def mark_archived
@@ -64,7 +70,7 @@ class CommentsController < ApplicationController
 				end
 			end
 		else
-			render action: :index, :notice => "You like this comment"
+			render action: :index
 		end
 	end
 
@@ -78,7 +84,7 @@ class CommentsController < ApplicationController
 				end
 			end
 		else
-			render action: :index, :notice => "You don't like this comment"
+			render action: :index
 		end
 	end
 

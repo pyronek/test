@@ -17,4 +17,5 @@ class Comment
 		votes.map(&:user_id).include?(user_id)
 	end
 
+
 end

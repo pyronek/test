@@ -8,13 +8,13 @@
   }
 }
 
-.post__button--add, .post__button--edit {
+.post__button--add, .post__button--edit, .post__button--delete {
   @extend .btn;
   @extend .btn-primary;
   @extend .btn-small;
 }
 
-.post__button--edit {
+.post__button--add, .post__button--edit, .post__button--delete {
   font-size: 12px; }
 
 .post--short-size {

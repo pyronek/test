@@ -1,0 +1,23 @@
+.comment__button--delete, .comment__button--edit, .comment__button--vote_up, .comment__button--vote_down {
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .btn-small;
+}
+
+.comment__button--delete, .comment__button--edit, .comment__button--vote_up, .comment__button--vote_down {
+  font-size: 12px; }
+
+.comment--short-size {
+  border-bottom: 1px solid #f2f2f2; }
+
+.comment--short-size {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+.comment--full-size {
+  .comment__body {
+    margin: 15px 0;
+  }
+}
+
